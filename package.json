@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js",
+    "dev": "DATABASE_PATH=./data/bot.sqlite node --watch index.js",
     "lint": "node scripts/lint.js",
     "test": "node --test",
     "sync:commands": "node scripts/sync-commands.js"
