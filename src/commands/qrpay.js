@@ -21,11 +21,11 @@ module.exports = createTextCommand({
         .addMediaGalleryComponents((gallery) => gallery.addItems({ media: { url: `https://promptpay.io/0653192342/${amount}` } }))
         .addTextDisplayComponents((textDisplay) => textDisplay.setContent(`แสกน QR PromptPay เพื่อชำระเงินจำนวน **${amount}** บาท`))
         .addSeparatorComponents((separator) => separator.setDivider(true));
-      const imageUrl = context.commandImage?.url;
-      const r2Base = context.config?.r2PublicUrl?.replace(/\/+$/, "");
-      if (imageUrl && r2Base?.startsWith("https://") && imageUrl.startsWith(`${r2Base}/`)) {
-        exampleContainer.addMediaGalleryComponents((gallery) => gallery.addItems({ media: { url: imageUrl } }));
-      }
+      // const imageUrl = context.commandImage?.url;
+      // const r2Base = context.config?.r2PublicUrl?.replace(/\/+$/, "");
+      // if (imageUrl && r2Base?.startsWith("https://") && imageUrl.startsWith(`${r2Base}/`)) {
+      //   exampleContainer.addMediaGalleryComponents((gallery) => gallery.addItems({ media: { url: imageUrl } }));
+      // }
       const payload = { components: [exampleContainer], flags: MessageFlags.IsComponentsV2, allowedMentions: { parse: [], repliedUser: false } };
       if (context.type === "slash") {
         if (context.interaction.deferred || context.interaction.replied) await context.interaction.followUp(payload);

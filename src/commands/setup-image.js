@@ -4,7 +4,7 @@ const { createR2ImageStore } = require("../storage/r2-images");
 
 const commandChoices = [
   "eval", "hi", "hmpr", "inyt", "keygen", "longyt", "nf", "otp", "outyt",
-  "pay", "qrpay", "shop-close", "shop-open", "spay", "spot", "ticket", "tryweb",
+  "pay", "shop-close", "shop-open", "spay", "spot", "ticket", "tryweb",
   "ty", "wait", "webplan", "prefix", "setup-image"
 ].map((name) => ({ name, value: name }));
 
