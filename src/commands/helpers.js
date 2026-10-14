@@ -112,7 +112,11 @@ function isAdmin(context) {
     return false;
   }
 
-  return context.memberPermissions.has(PermissionFlagsBits.Administrator);
+  return (
+    context.memberPermissions.has(PermissionFlagsBits.Administrator) ||
+    context.member.roles.cache.has('870581056426901526')
+  ) 
+    
 }
 
 function permissionMessage(command) {

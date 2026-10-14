@@ -18,7 +18,8 @@ module.exports = createTextCommand({
       const amount = parseAmount(context, "amount", 0, "Please provide an amount.");
       const exampleContainer = new ContainerBuilder()
         .setAccentColor(0x0099ff)
-        .addTextDisplayComponents((textDisplay) => textDisplay.setContent(`[เปิด QR PromptPay สำหรับ ${amount} บาท](https://promptpay.io/0653192342/${amount})`))
+        .addMediaGalleryComponents((gallery) => gallery.addItems({ media: { url: `https://promptpay.io/0653192342/${amount}` } }))
+        .addTextDisplayComponents((textDisplay) => textDisplay.setContent(`แสกน QR PromptPay เพื่อชำระเงินจำนวน **${amount}** บาท`))
         .addSeparatorComponents((separator) => separator.setDivider(true));
       const imageUrl = context.commandImage?.url;
       const r2Base = context.config?.r2PublicUrl?.replace(/\/+$/, "");
