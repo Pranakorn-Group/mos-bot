@@ -33,7 +33,7 @@ function createSlashContext({ interaction, config, store, client }) {
     config,
     store,
     guildId: interaction.guildId,
-    interaction,
+    interaction: interaction,
     options: interaction.options,
     member: interaction.member,
     memberPermissions: interaction.memberPermissions,

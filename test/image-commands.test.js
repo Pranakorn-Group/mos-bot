@@ -82,6 +82,7 @@ test("images from outside the configured R2 base are not displayed", async () =>
     const context = {
         type: "slash",
         config: { r2PublicUrl: "https://images.example" },
+        member: {},
         memberPermissions: { has: () => true },
         store: { getCommandImage: () => ({ url: "https://cdn.discordapp.com/attachments/1/old.png" }) },
         interaction: {
@@ -114,6 +115,7 @@ test("split parameterized commands execute through shared option helpers", async
         options: { get: name => options.get(name) },
         config: { ownerId: "owner", discordToken: "safe" },
         user: { id: "owner", tag: "owner#0001", username: "owner" },
+        member: {},
         memberPermissions: { has: () => true },
         commandImage: null,
         interaction: {
@@ -141,6 +143,7 @@ test("a saved command image replaces its legacy standalone image URL", async () 
     const command = { ...registry.resolve("shop-close"), imageKey: "shop-banner" };
     const context = {
         type: "slash",
+        member: {},
         memberPermissions: { has: () => true },
         config: { r2PublicUrl: "https://images.example" },
         store: {
@@ -245,6 +248,7 @@ test("image setup defers before its upload work", async () => {
     await executeCommand(command, {
         type: "slash",
         interaction,
+        member: {},
         memberPermissions: { has: () => true },
         store: { getCommandImage: () => null },
     });
@@ -291,6 +295,7 @@ test("every registered command sends only Components V2 replies", async () => {
             config: { ownerId: "owner", discordToken: "safe", r2PublicUrl: "https://images.example" },
             user: { id: "owner", tag: "owner#0001", username: "owner" },
             guildId: "guild",
+            member: {},
             memberPermissions: { has: () => true },
             options: interaction.options,
             interaction,
