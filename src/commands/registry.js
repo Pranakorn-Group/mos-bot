@@ -1,5 +1,13 @@
 const { Collection } = require("discord.js");
-const { commands } = require("./catalog");
+const fs = require("node:fs");
+const path = require("node:path");
+
+const internalFiles = new Set(["registry.js", "helpers.js", "execute.js"]);
+const commands = fs
+  .readdirSync(__dirname)
+  .filter((file) => file.endsWith(".js") && !internalFiles.has(file))
+  .sort()
+  .map((file) => require(path.join(__dirname, file)));
 
 function createRegistry() {
   const commandsByName = new Collection();

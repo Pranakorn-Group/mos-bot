@@ -1,7 +1,7 @@
 const {
   EmbedBuilder,
   PermissionFlagsBits,
-  SlashCommandBuilder
+  SlashCommandBuilder,
 } = require("discord.js");
 const { inspect } = require("node:util");
 
@@ -27,6 +27,25 @@ function formatCodeBlock(label, value) {
 }
 
 function addOption(builder, option) {
+  if (option.type === "attachment") {
+    return builder.addAttachmentOption((input) =>
+      input
+        .setName(option.name)
+        .setDescription(option.description)
+        .setRequired(Boolean(option.required))
+    );
+  }
+
+  if (option.choices) {
+    return builder.addStringOption((input) =>
+      input
+        .setName(option.name)
+        .setDescription(option.description)
+        .setRequired(Boolean(option.required))
+        .addChoices(...option.choices)
+    );
+  }
+
   if (option.type === "number") {
     return builder.addNumberOption((input) =>
       input
@@ -54,6 +73,25 @@ function buildSlashData(command) {
   }
 
   return builder;
+}
+
+function ensureValue(value, message) {
+  if (value == null || value === "") {
+    throw new Error(message);
+  }
+  return value;
+}
+
+function parseText(context, optionName, fallbackIndex, missingMessage) {
+  return ensureValue(readOption(context, optionName, fallbackIndex), missingMessage);
+}
+
+function parseAmount(context, optionName, fallbackIndex, missingMessage) {
+  const amount = Number(ensureValue(readOption(context, optionName, fallbackIndex), missingMessage));
+  if (!Number.isFinite(amount) || amount <= 0) {
+    throw new Error("Please provide a valid amount.");
+  }
+  return amount;
 }
 
 function createTextCommand(definition) {
@@ -113,7 +151,7 @@ function formatEvalValue(value) {
 
 function readOption(context, optionName, fallbackIndex = 0) {
   if (context.type === "slash") {
-    return context.options.get(optionName)?.value ?? null;
+    return context.options.get(optionName)?.attachment ?? context.options.get(optionName)?.value ?? null;
   }
 
   return context.args[fallbackIndex] ?? null;
@@ -122,8 +160,12 @@ function readOption(context, optionName, fallbackIndex = 0) {
 module.exports = {
   buildEvalEmbed,
   createTextCommand,
+  ensureValue,
+
   formatEvalValue,
   hasPermission,
+  parseAmount,
+  parseText,
   permissionMessage,
   readOption,
   sanitizeEvalOutput
