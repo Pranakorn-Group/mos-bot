@@ -20,6 +20,7 @@ function createPrefixContext({ message, args, config, store, client }) {
     message,
     args,
     rawArgsText: args.join(" "),
+    member: message.member,
     memberPermissions: message.member?.permissions,
     user: message.author
   };
@@ -34,6 +35,7 @@ function createSlashContext({ interaction, config, store, client }) {
     guildId: interaction.guildId,
     interaction,
     options: interaction.options,
+    member: interaction.member,
     memberPermissions: interaction.memberPermissions,
     user: interaction.user
   };

@@ -108,16 +108,20 @@ function isOwner(context) {
 }
 
 function isAdmin(context) {
-  if (!context.memberPermissions) {
+  // ต้องเป็นสมาชิกเซิร์ฟเวอร์ก่อน
+  if (!context.member) {
     return false;
   }
 
-  return (
-    context.memberPermissions.has(PermissionFlagsBits.Administrator) ||
-    context.member.roles.cache.has('870581056426901526')
-  ) 
-    
+  // ผู้ที่มีสิทธิ์ Administrator
+  if (context.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
+    return true;
+  }
+
+  // ผู้ที่มียศตาม ID ที่กำหนด
+  return context.member.roles?.cache?.has('870581056426901526') ?? false;
 }
+
 
 function permissionMessage(command) {
   return permissionErrors[command.permission] || "You don't have permission to use this command.";
