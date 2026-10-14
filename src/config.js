@@ -54,7 +54,12 @@ function loadConfig() {
     nodeEnv: process.env.NODE_ENV || "development",
     syncCommandsOnStartup: parseBoolean(process.env.SYNC_COMMANDS_ON_STARTUP, true),
     guildId: process.env.DISCORD_GUILD_ID || null,
-    enablePrefixCommands: parseBoolean(process.env.ENABLE_PREFIX_COMMANDS, true)
+    enablePrefixCommands: parseBoolean(process.env.ENABLE_PREFIX_COMMANDS, true),
+    r2AccountId: process.env.R2_ACCOUNT_ID || null,
+    r2AccessKeyId: process.env.R2_ACCESS_KEY_ID || null,
+    r2SecretAccessKey: process.env.R2_SECRET_ACCESS_KEY || null,
+    r2BucketName: process.env.R2_BUCKET_NAME || null,
+    r2PublicUrl: process.env.R2_PUBLIC_URL || null
   };
 }
 

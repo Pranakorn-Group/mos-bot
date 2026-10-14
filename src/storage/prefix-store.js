@@ -16,6 +16,14 @@ class PrefixStore {
         prefix TEXT NOT NULL
       )
     `);
+    this.db.exec(`
+      CREATE TABLE IF NOT EXISTS command_images (
+        command_name TEXT PRIMARY KEY,
+        object_key TEXT NOT NULL,
+        public_url TEXT NOT NULL,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
 
     this.selectStatement = this.db.prepare(
       "SELECT prefix FROM guild_prefixes WHERE guild_id = ?"
@@ -39,6 +47,24 @@ class PrefixStore {
   setPrefix(guildId, prefix) {
     this.upsertStatement.run(String(guildId), prefix);
     return prefix;
+  }
+
+  getCommandImage(commandName) {
+    const row = this.db
+      .prepare("SELECT object_key, public_url FROM command_images WHERE command_name = ?")
+      .get(String(commandName));
+    return row ? { objectKey: row.object_key, url: row.public_url } : null;
+  }
+
+  setCommandImage(commandName, objectKey, publicUrl) {
+    this.db.prepare(`
+      INSERT INTO command_images (command_name, object_key, public_url)
+      VALUES (?, ?, ?)
+      ON CONFLICT(command_name) DO UPDATE SET
+        object_key = excluded.object_key,
+        public_url = excluded.public_url,
+        updated_at = CURRENT_TIMESTAMP
+    `).run(String(commandName), String(objectKey), String(publicUrl));
   }
 }
 
