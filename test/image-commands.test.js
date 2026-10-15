@@ -32,7 +32,7 @@ test("each command module defines and sends its own Components V2 container", ()
         assert.doesNotMatch(source, /function sendComponentsV2/, `${command.name} has no V2 wrapper function`);
         assert.match(
             source,
-            /const (?:example)?[A-Za-z]*Container = new ContainerBuilder\(\)/,
+            /const [A-Za-z_$][\w$]* = new ContainerBuilder\(\)/,
             `${command.name} builds the container inline`,
         );
         assert.match(source, /new ContainerBuilder\(\)/, `${command.name} builds its container locally`);
@@ -274,6 +274,7 @@ test("every registered command sends only Components V2 replies", async () => {
         const interaction = {
             deferred: false,
             replied: false,
+            client: { on() {} },
             async deferReply() {
                 this.deferred = true;
             },
