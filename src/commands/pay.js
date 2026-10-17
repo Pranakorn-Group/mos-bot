@@ -55,7 +55,7 @@ function registerButtonHandler(client) {
       .addMediaGalleryComponents((gallery) =>
         gallery.addItems({
           media: {
-            url: `https://promptpay.io/0653192342/${amount}`,
+            url: `https://promptpay.io/1102200281061/${amount}`,
           },
         })
       );
